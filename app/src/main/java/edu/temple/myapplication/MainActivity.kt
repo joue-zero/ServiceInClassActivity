@@ -32,16 +32,13 @@ class MainActivity : AppCompatActivity() {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             timerBinder = service as TimerService.TimerBinder
             timerBinder!!.setHandler(timerHandler)
-            isconnected=true
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
             timerBinder = null
-            isconnected=false
         }
 
     }
-    var isconnected=false
 //    val timerHandler = Handler(Looper.getMainLooper()){
 //        timerTextView.text=it.obj.toString()
 //        true
@@ -69,12 +66,19 @@ class MainActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.startButton)
 
         button.setOnClickListener {
-            if(isconnected && button.text=="Start"){
+//            if(isconnected && button.text=="Start"){
+//                timerBinder?.start(100)
+//                button.text="Pause"
+//
+//            }
+//            else if(isconnected && button.text=="Pause"){
+//                timerBinder?.pause()
+//                button.text="Start"
+//            }
+            if(timerBinder?.isRunning == false){
                 timerBinder?.start(100)
                 button.text="Pause"
-
-            }
-            else if(isconnected && button.text=="Pause"){
+            }else{
                 timerBinder?.pause()
                 button.text="Start"
             }
